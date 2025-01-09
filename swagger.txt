@@ -1,0 +1,212 @@
+openapi: 3.0.0
+info:
+  title: WSS Forum API
+  description: This API allows interaction with posts, comments, likes, and shares.
+  version: 1.0.0
+servers:
+  - url: https://mocki.io/v1
+    description: Mock server for WSS Forum API
+
+paths:
+  /56029e01-f435-4b2c-896d-b5cbaaab4356:
+    get:
+      summary: Get a list of posts
+      description: Retrieve a list of all posts in the system.
+      responses:
+        '200':
+          description: A list of posts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        post_id:
+                          type: integer
+                          description: Unique identifier for the post
+                        username:
+                          type: string
+                          description: Username of the person who made the post
+                        content:
+                          type: string
+                          description: Content of the post
+                        likes:
+                          type: array
+                          items:
+                            type: string
+                          description: List of usernames who liked the post
+                        shares:
+                          type: integer
+                          description: Number of times the post has been shared
+                        is_flagged:
+                          type: boolean
+                          description: Indicates whether the post is flagged
+                        images:
+                          type: array
+                          items:
+                            type: string
+                            format: uri
+                          description: List of URLs to images associated with the post
+                        edit_history:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              timestamp:
+                                type: string
+                                format: date-time
+                                description: Time when the edit was made
+                              edit_content:
+                                type: string
+                                description: Content of the post after the edit
+                        timestamp:
+                          type: string
+                          format: date-time
+                          description: Timestamp when the post was made
+                        comments:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              comment_id:
+                                type: integer
+                                description: Unique identifier for the comment
+                              username:
+                                type: string
+                                description: Username of the person who commented
+                              content:
+                                type: string
+                                description: Content of the comment
+                              likes:
+                                type: array
+                                items:
+                                  type: string
+                                description: List of usernames who liked the comment
+                              edit_history:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    timestamp:
+                                      type: string
+                                      format: date-time
+                                    edit_content:
+                                      type: string
+                                  description: History of edits made to the comment
+                              timestamp:
+                                type: string
+                                format: date-time
+                                description: Timestamp when the comment was made
+        '500':
+          description: Internal server error
+
+  /2abffcb8-eac4-4021-8a7c-af9aea5e3783:
+    get:
+      summary: Retrieve a list of users
+      operationId: getUsers
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          example: abigail_tyler
+                        email:
+                          type: string
+                          example: abigail.tyler@example.com
+                        date_joined:
+                          type: string
+                          format: date
+                          example: '2023-12-01'
+                        friendRequests:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              user:
+                                type: string
+                                example: brett_donus
+                                description: The username that this request is sent to
+                              accepted:
+                                type: boolean
+                                example: true
+                                description: If this is true, a two-way friendship is formed
+
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        post_id:
+          type: integer
+          description: Unique identifier for the post
+        username:
+          type: string
+          description: Username of the person who made the post
+        content:
+          type: string
+          description: Content of the post
+        likes:
+          type: array
+          items:
+            type: string
+          description: List of usernames who liked the post
+        shares:
+          type: integer
+          description: Number of times the post has been shared
+        is_flagged:
+          type: boolean
+          description: Whether the post is flagged
+        images:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: List of image URLs associated with the post
+        edit_history:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+                description: Time of edit
+              edit_content:
+                type: string
+                description: Edited content
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when the post was created
+        comments:
+          type: array
+          items:
+            type: object
+            properties:
+              comment_id:
+                type: integer
+              username:
+                type: string
+              content:
+                type: string
+              likes:
+                type: array
+                items:
+                  type: string
+              timestamp:
+                type: string
+                format: date-time
